@@ -43,7 +43,7 @@
       <div class="field"><label>升級家業所需米錢</label><input id="upgradeCost" type="number" value="80000" min="0"></div>
       <div class="field"><label>週數</label><input id="weeks" type="number" value="1" min="1" step="1"></div>
     </div>
-    <div class="small">最大可買數量會依照「品種數 × 每週每品種數 × 週數」自動計算。目標是在達到指定繁榮度以上的前提下，找出家具米錢最低的購買組合。</div>
+    <div class="small">最大可買數量會依照「樣品數 × 每週每樣品數 × 週數」自動計算。目標是在達到指定繁榮度以上的前提下，找出家具米錢最低的購買組合。</div>
     <div class="small">注意! 每週家具數量都會更新。 本網頁為作者本人私人使用，本人不負任何責任以及損失。</div>
   </div>
 
@@ -54,8 +54,8 @@
         <tr>
           <th>單件繁榮度</th>
           <th>單件價格</th>
-          <th>品種數</th>
-          <th>每週每品種數</th>
+          <th>樣品數</th>
+          <th>每週每樣品數</th>
           <th>最大可買數量</th>
           <th>購買數量</th>
         </tr>
@@ -86,7 +86,7 @@
 </div>
 
 <script>
-// 欄位順序：單件繁榮度、單件價格、品種數、每週每品種數
+// 欄位順序：單件繁榮度、單件價格、樣品數、每週每樣品數
 const builtInRows = [
   [10,100,5,100],
   [12,150,7,100],

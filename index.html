@@ -66,9 +66,9 @@
       <button onclick="solve()">開始計算</button>
       <button class="secondary" onclick="addRow()">新增家具</button>
       <button class="danger" onclick="removeRow()">刪除最後一列</button>
-      <button class="secondary" onclick="loadExample()">載入範例資料</button>
-      <button class="secondary" onclick="saveCurrentAsExample()">將目前資料設為範例</button>
-      <button class="secondary" onclick="restoreBuiltInExample()">還原內建範例</button>
+      <button class="secondary" onclick="loadExample()">載入預設設定</button>
+      <button class="secondary" onclick="saveCurrentAsExample()">儲存目前設定</button>
+      <button class="secondary" onclick="restoreBuiltInExample()">還原預設設定</button>
       <button class="secondary" onclick="clearRows()">清空資料</button>
     </div>
   </div>
@@ -146,27 +146,71 @@ function addRow(){ render([...rowsForRender(), [10,100,1,100]]); clearResult(fal
 function removeRow(){ const rows=rowsForRender(); rows.pop(); render(rows); clearResult(false); }
 function clearRows(){ render([]); clearResult(); }
 
-function getExampleRows(){
-  try{
-    const saved = localStorage.getItem('furniture_optimizer_example_rows_v4');
-    if(saved){
-      const rows = JSON.parse(saved);
-      if(Array.isArray(rows) && rows.length>0) return rows;
-    }
-  }catch(e){}
-  return builtInRows;
+function getExample(){
+
+    try{
+
+        const saved = localStorage.getItem('furniture_optimizer_example_v5');
+
+        if(saved){
+            return JSON.parse(saved);
+        }
+
+    }catch(e){}
+
+    return {
+        target:12990,
+        upgradeCost:80000,
+        weeks:1,
+        rows:builtInRows
+    };
+
 }
-function loadExample(){ render(getExampleRows()); clearResult(); }
+
+    const ex = getExample();
+
+    document.getElementById("target").value = ex.target;
+    document.getElementById("upgradeCost").value = ex.upgradeCost;
+    document.getElementById("weeks").value = ex.weeks;
+
+    render(ex.rows);
+
+    clearResult();
+
+}
 function saveCurrentAsExample(){
-  const rows=rowsForRender();
-  localStorage.setItem('furniture_optimizer_example_rows_v4', JSON.stringify(rows));
-  document.getElementById('status').innerHTML='<span class="good">已將目前家具資料設為範例資料。</span> 之後按「載入範例資料」會載入這組資料。';
+    const rows = rowsForRender();
+
+    const example = {
+        target: Number(document.getElementById('target').value),
+        upgradeCost: Number(document.getElementById('upgradeCost').value),
+        weeks: Number(document.getElementById('weeks').value),
+        rows: rows
+    };
+
+    localStorage.setItem(
+        'furniture_optimizer_example_v5',
+        JSON.stringify(example)
+    );
+
+    document.getElementById('status').innerHTML =
+        '<span class="good">已將目前所有資料設為範例資料。</span>';
 }
 function restoreBuiltInExample(){
-  localStorage.removeItem('furniture_optimizer_example_rows_v4');
-  render(builtInRows);
-  clearResult(false);
-  document.getElementById('status').innerHTML='<span class="good">已還原內建範例資料。</span>';
+
+    localStorage.removeItem("furniture_optimizer_example_v5");
+
+    document.getElementById("target").value = 12990;
+    document.getElementById("upgradeCost").value = 80000;
+    document.getElementById("weeks").value = 1;
+
+    render(builtInRows);
+
+    clearResult(false);
+
+    document.getElementById("status").innerHTML =
+        "<span class='good'>已還原內建範例資料。</span>";
+
 }
 function clearResult(clearStatus=true){
   ['totalProsperity','overProsperity','furnitureCost','totalCost'].forEach(id=>document.getElementById(id).textContent='-');
@@ -245,7 +289,7 @@ document.getElementById('target').addEventListener('input', ()=>clearResult());
 document.getElementById('upgradeCost').addEventListener('input', ()=>clearResult());
 document.addEventListener('input', (e)=>{ if(e.target.closest('#dataTable')){ updateMaxQty(); clearResult(); } });
 
-render(getExampleRows());
+render(getExample());
 solve();
 </script>
 </body>

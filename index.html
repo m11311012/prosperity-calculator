@@ -41,9 +41,9 @@
     <div class="toprow">
       <div class="field"><label>距離升級繁榮度</label><input id="target" type="number" value="12990" min="0"></div>
       <div class="field"><label>升級家業所需米錢</label><input id="upgradeCost" type="number" value="80000" min="0"></div>
-      <div class="field"><label>週數</label><input id="weeks" type="number" value="1" min="1" step="1"></div>
+      <div class="field"><label>所需週數</label><input id="weeks" type="number" value="1" min="1" step="1"></div>
     </div>
-    <div class="small">最大可買數量會依照「樣品數 × 每週每樣品數 × 週數」自動計算。目標是在達到指定繁榮度以上的前提下，找出家具米錢最低的購買組合。</div>
+    <div class="small">最大可買數量會依照「樣品數 × 每週每樣品數 × 所需週數」自動計算。目標是在達到指定繁榮度以上的前提下，找出家具米錢最低的購買組合。</div>
     <div class="small">注意! 每週家具數量都會更新。 本網頁為作者本人私人使用，本人不負任何責任以及損失。</div>
   </div>
 
@@ -237,7 +237,7 @@ function solve(){
   document.getElementById('overProsperity').textContent=(bestS-target).toLocaleString();
   document.getElementById('furnitureCost').textContent=bestC.toLocaleString();
   document.getElementById('totalCost').textContent=(bestC+upgradeCost).toLocaleString();
-  document.getElementById('status').innerHTML=`<span class="good">計算完成。</span> 週數：<b>${weeks()}</b>，最低家具米錢為 <b>${bestC.toLocaleString()}</b>，總需米錢為 <b>${(bestC+upgradeCost).toLocaleString()}</b>。`;
+  document.getElementById('status').innerHTML=`<span class="good">計算完成。</span> 所需週數：<b>${weeks()}</b>，最低家具米錢為 <b>${bestC.toLocaleString()}</b>，總需米錢為 <b>${(bestC+upgradeCost).toLocaleString()}</b>。`;
 }
 
 document.getElementById('weeks').addEventListener('input', ()=>{ updateMaxQty(); clearResult(); });
